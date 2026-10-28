@@ -1,21 +1,23 @@
 package models;
 
+import java.time.ZonedDateTime;
+
 public class Task {
     private String taskName;
     private String taskDescription;
-    private String taskCreateDateTime;
-    private String taskDoneDateTime;
+    private ZonedDateTime taskCreateDateTime;
+//    private String taskDoneDateTime;
     private String taskPriority;
     private String taskStatus;
 
 
-    public Task(String taskName, String taskDescription, String taskCreateDateTime, String taskDoneDateTime, String taskPriority) {
+    public Task(String taskName, String taskDescription,  String taskPriority) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
-        this.taskCreateDateTime = taskCreateDateTime;
-        this.taskDoneDateTime = taskDoneDateTime;
+        this.taskCreateDateTime = ZonedDateTime.now();
+//        this.taskDoneDateTime = taskDoneDateTime;
         this.taskPriority = taskPriority;
-        this.taskStatus = taskPriority;
+        this.taskStatus = "NEW";
     }
 
     public String getTaskName() {
@@ -34,21 +36,17 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
-    public String getTaskCreateDateTime() {
+    public ZonedDateTime getTaskCreateDateTime() {
         return taskCreateDateTime;
     }
 
-    public void setTaskCreateDateTime(String taskCreateDateTime) {
-        this.taskCreateDateTime = taskCreateDateTime;
-    }
+//    public String getTaskDoneDateTime() {
+//        return taskDoneDateTime;
+//    }
 
-    public String getTaskDoneDateTime() {
-        return taskDoneDateTime;
-    }
-
-    public void setTaskDoneDateTime(String taskDoneDateTime) {
-        this.taskDoneDateTime = taskDoneDateTime;
-    }
+//    public void setTaskDoneDateTime(String taskDoneDateTime) {
+//        this.taskDoneDateTime = taskDoneDateTime;
+//    }
 
     public String getTaskPriority() {
         return taskPriority;
@@ -64,5 +62,10 @@ public class Task {
 
     public void setTaskStatus(String taskStatus) {
         this.taskStatus = taskStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Task [taskName=" + taskName + ", taskDescription=" + taskDescription + ", taskCreateDateTime=" + taskCreateDateTime;
     }
 }
