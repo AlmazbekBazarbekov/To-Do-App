@@ -26,10 +26,10 @@ public class TaskCollection {
         return tasks != null ? tasks : new ArrayList<>();
     }
 
-    public static List<Task> TaskCollectionWrite(String fileName) throws IOException {
+    public static void TaskCollectionWrite(String fileName, List<Task> tasks) throws IOException {
         Path path = Paths.get(fileName);
-        String write = gson.toJson(TaskCollectionRead(fileName));
-        Files.write(path, write.getBytes());
-        return TaskCollectionRead(fileName);
+        String write = gson.toJson(tasks);
+        byte[] bytes = write.getBytes();
+        Files.write(path, bytes);
     }
 }

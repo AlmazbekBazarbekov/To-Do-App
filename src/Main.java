@@ -11,13 +11,14 @@ public class Main {
 
         System.out.println(tasks);
 
-        TaskManager.createNewTasks(tasks);
-
-        TaskManager.printTasks(tasks);
+//        TaskManager.createNewTasks(tasks);
+//
+//        TaskManager.printTasks(tasks);
 
         TaskManager.deleteTask(tasks);
+//
+//        TaskManager.printTasks(tasks);
 
-        TaskManager.printTasks(tasks);
-
+        TaskCollection.TaskCollectionWrite("data/tasks.json", tasks);
     }
 }

@@ -1,11 +1,13 @@
 package models;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 public class Task {
     private String taskName;
     private String taskDescription;
-    private ZonedDateTime taskCreateDateTime;
+    private String taskCreateDateTime;
 //    private String taskDoneDateTime;
     private String taskPriority;
     private String taskStatus;
@@ -14,7 +16,7 @@ public class Task {
     public Task(String taskName, String taskDescription,  String taskPriority) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
-        this.taskCreateDateTime = ZonedDateTime.now();
+        this.taskCreateDateTime = setTaskLocalDate(LocalDate.now());
 //        this.taskDoneDateTime = taskDoneDateTime;
         this.taskPriority = taskPriority;
         this.taskStatus = "NEW";
@@ -36,8 +38,11 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
-    public ZonedDateTime getTaskCreateDateTime() {
-        return taskCreateDateTime;
+    public LocalDate getTaskLocalDate() {
+        return taskCreateDateTime != null ? LocalDate.parse(taskCreateDateTime) : null;
+    }
+    public String setTaskLocalDate(LocalDate taskLocalDate) {
+       return this.taskCreateDateTime = taskLocalDate.toString();
     }
 
 //    public String getTaskDoneDateTime() {

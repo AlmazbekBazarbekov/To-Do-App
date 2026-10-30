@@ -5,6 +5,8 @@ import models.Task;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.util.Comparator.comparing;
+
 public class TaskManager {
     private List<Task> tasks;
 
@@ -16,6 +18,10 @@ public class TaskManager {
 
     public List<Task> getTasks() {
         return tasks;
+    }
+
+    private enum sortCriteria {
+        BY_DATE, BY_PRIORITY
     }
 
 
@@ -48,6 +54,24 @@ public class TaskManager {
         else{
             System.out.println("Вы не можете удалять задачи со статусами кроме NEW!");
         }
+    }
+
+    public static List<Task> sortedTasks(List<Task> tasks, sortCriteria criteria) {
+        switch (criteria){
+            case BY_DATE:
+                tasks
+                        .stream()
+                        .sorted(comparing(Task::getTaskLocalDate))
+                        .toList();
+                break;
+
+            case BY_PRIORITY:
+                tasks
+                        .stream()
+                        .sorted(comparing(Task::getTaskPriority))
+                        .toList();
+        }
+        return tasks;
     }
 
     public static void printTasks(List<Task> tasks) {
