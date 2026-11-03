@@ -8,19 +8,25 @@ public class Task {
     private String taskName;
     private String taskDescription;
     private String taskCreateDateTime;
-//    private String taskDoneDateTime;
+    private String taskDoneDateTime;
     private String taskPriority;
     private String taskStatus;
+
+    public enum taskStatusEnum {
+        NEW, IN_PROGRESS, DONE
+    }
 
 
     public Task(String taskName, String taskDescription,  String taskPriority) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
-        this.taskCreateDateTime = setTaskLocalDate(LocalDate.now());
-//        this.taskDoneDateTime = taskDoneDateTime;
+        this.taskCreateDateTime = setTaskLocalDate(LocalDateTime.now());
+        this.taskDoneDateTime = null;
         this.taskPriority = taskPriority;
-        this.taskStatus = "NEW";
+        this.taskStatus = taskStatusEnum.NEW.name();
     }
+
+
 
     public String getTaskName() {
         return taskName;
@@ -38,10 +44,10 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
-    public LocalDate getTaskLocalDate() {
-        return taskCreateDateTime != null ? LocalDate.parse(taskCreateDateTime) : null;
+    public LocalDateTime getTaskLocalDate() {
+        return taskCreateDateTime != null ? LocalDateTime.parse(taskCreateDateTime) : null;
     }
-    public String setTaskLocalDate(LocalDate taskLocalDate) {
+    public String setTaskLocalDate(LocalDateTime taskLocalDate) {
        return this.taskCreateDateTime = taskLocalDate.toString();
     }
 
@@ -69,8 +75,17 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
+    public void completeTask() {
+        this.taskStatus = taskStatusEnum.DONE.name();
+        this.taskDoneDateTime = setTaskLocalDate(LocalDateTime.now());
+    }
+
+    public void inProgressTask() {
+        this.taskStatus = taskStatusEnum.IN_PROGRESS.name();
+    }
+
     @Override
     public String toString() {
-        return "Task [taskName=" + taskName + ", taskDescription=" + taskDescription + ", taskCreateDateTime=" + taskCreateDateTime;
+        return "Task [taskName= " + taskName + ", taskDescription= " + taskDescription + ", taskCreateDateTime= " + taskCreateDateTime;
     }
 }

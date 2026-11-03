@@ -2,6 +2,7 @@ package utils;
 
 import models.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,8 +10,6 @@ import static java.util.Comparator.comparing;
 
 public class TaskManager {
     private List<Task> tasks;
-
-    public TaskManager() {}
 
     public TaskManager(List<Task> tasks) {
         this.tasks = tasks;
@@ -20,61 +19,74 @@ public class TaskManager {
         return tasks;
     }
 
-    private enum sortCriteria {
+    public enum sortCriteria {
         BY_DATE, BY_PRIORITY
     }
 
 
-    public static void createNewTasks(List<Task> tasks) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите имя новой задачи: ");
-        String name = scanner.nextLine();
-        System.out.println("Введите описание задачи: ");
-        String description = scanner.nextLine();
-        System.out.println("Задайте приоритет задаче - LOW - MIDDLE - HIGH ");
-        String priority = scanner.nextLine();
-
+    public void createNewTasks(String name, String description, String priority) {
         tasks.add(new Task(name, description, priority));
     }
 
-    public static void deleteTask(List<Task> tasks) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите название задачи которую хотите удалить");
-        String taskName = scanner.nextLine();
-
+    public void deleteTask(String taskName) {
         var task = tasks
                 .stream()
-                .filter(t -> t.getTaskName().equals(taskName))
+                .filter(t -> t.getTaskName().equalsIgnoreCase(taskName))
                 .findFirst()
-                .get();
+                .orElse(null);
 
-        if (task.getTaskStatus().equals("NEW")) {
+        if (task == null) {
+            System.out.println("Задача с таким названием не существует");
+        }
+        else if (task.getTaskStatus().equals("NEW")) {
             tasks.remove(task);
+            System.out.println("Задача была успешно удалена!");
         }
         else{
             System.out.println("Вы не можете удалять задачи со статусами кроме NEW!");
         }
     }
 
-    public static List<Task> sortedTasks(List<Task> tasks, sortCriteria criteria) {
-        switch (criteria){
+    public List<Task> sortedTasks(sortCriteria criteria) {
+        List<Task> sortedTasks = new ArrayList<>();
+         switch (criteria){
             case BY_DATE:
-                tasks
+                   sortedTasks = tasks
                         .stream()
-                        .sorted(comparing(Task::getTaskLocalDate))
+                        .sorted(comparing(Task::getTaskLocalDate).reversed())
                         .toList();
                 break;
 
             case BY_PRIORITY:
-                tasks
+                    sortedTasks = tasks
                         .stream()
                         .sorted(comparing(Task::getTaskPriority))
                         .toList();
         }
-        return tasks;
+        return sortedTasks;
     }
 
-    public static void printTasks(List<Task> tasks) {
+    public void ChangeTasksDescription (String taskName) {
+        Scanner scanner = new Scanner(System.in);
+
+        var task = tasks
+                .stream()
+                .filter(t -> t.getTaskName().equalsIgnoreCase(taskName))
+                .findFirst()
+                .orElse(null);
+        if (task == null) {
+            System.out.println("Задача с таким названием не существует");
+        } else {
+            System.out.println("Введите новое описание");
+            task.setTaskDescription(scanner.nextLine());
+        }
+    }
+
+    public void printTasks() {
+        tasks.forEach(System.out::println);
+    }
+
+    public void printTasks(List<Task> tasks) {
         tasks.forEach(System.out::println);
     }
 
